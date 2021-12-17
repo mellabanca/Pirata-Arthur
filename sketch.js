@@ -6,6 +6,7 @@ var engine, world,ground;
 var backgroundImg;
 var tower, towerImg;
 var angle, cannon;
+var cannonBall;
 
 
 
@@ -31,6 +32,8 @@ function setup() {
 
   angle = 20;
   cannon = new Cannon(180,110,130,100,angle);
+
+  cannonBall = new CannonBall(cannon.x, cannon.y);
  
 }
 
@@ -47,5 +50,6 @@ function draw() {
   pop();
 
   cannon.display();
+  cannonBall.display();
    
 }
