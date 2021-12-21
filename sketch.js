@@ -1,3 +1,25 @@
+//exemplos de matrizes
+var seila = [1,2,3];
+//console.log(seila);
+
+//matriz com diferentes tipos de dados
+var numsei = ['Melissa', 50, true];
+//console.log(numsei);
+
+//mariz contendo outras matrizes
+var esqueci = [[1,2],[3,4],[5,6]];
+//console.log(esqueci);
+
+//acessando os elementos da matriz com o índice (index)
+//console.log(seila[2]);
+//console.log(esqueci[1][1]);
+
+//push e pop
+numsei.push("Arthur");
+//console.log(numsei);
+numsei.pop();
+//console.log(numsei);
+
 const Engine = Matter.Engine;
 const World = Matter.World;
 const Bodies = Matter.Bodies;
@@ -7,8 +29,7 @@ var backgroundImg;
 var tower, towerImg;
 var angle, cannon;
 var cannonBall;
-
-
+var buum = [];
 
 function preload() {
  backgroundImg = loadImage("./assets/background.gif");
@@ -51,12 +72,27 @@ function draw() {
   pop();
 
   cannon.display();
-  cannonBall.display();
+  for(var i = 0; i < buum.length; i++){
+    flw(buum[i],i);
+  }
    
 }
 
 function keyReleased(){
   if(keyCode === DOWN_ARROW){
-    cannonBall.shoot();
+    buum[buum.length - 1].shoot()
+  }
+}
+
+function keyPressed(){
+  if(keyCode === DOWN_ARROW){
+    var love = new CannonBall(cannon.x, cannon.y);
+    buum.push(love);
+  }
+}
+
+function flw(bola, i){
+  if(bola){
+    bola.display();
   }
 }
