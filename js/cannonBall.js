@@ -2,21 +2,17 @@ class CannonBall {
     constructor(x,y){
         
         var options = {
-            isStatic: true
-        }
+            isStatic: true,
+            restitution: 0.1,
+            frictionAir: 0.02
+             }
 
         this.r = 30;
         this.body = Bodies.circle(x,y,this.r,options);
+        console.log(this.body);
         this.image = loadImage("./assets/cannonball.png");
+        this.ponto=[];
         World.add(world,this.body);
-    }
-
-    display(){
-        var pos = this.body.position;
-        push();
-        imageMode(CENTER);
-        image(this.image, pos.x, pos.y, this.r, this.r);
-        pop();
     }
 
     shoot(){
@@ -27,4 +23,22 @@ class CannonBall {
         Matter.Body.setStatic(this.body, false);
         Matter.Body.setVelocity(this.body, {x: velocity.x * (180/3.14), y: velocity.y * (180/3.14)});
     }
+
+    display(){
+        var pos = this.body.position;
+        push();
+        imageMode(CENTER);
+        image(this.image, pos.x, pos.y, this.r, this.r);
+        pop();
+
+        if(this.body.velocity.x > 0 && pos.x > 10){
+            var position = [pos.x, pos.y];
+            this.ponto.push(position);
+        }
+
+        for(var i = 0; i < this.ponto.length; i++){
+            image(this.image, this.ponto[i][0], this.ponto[i][1], 5,5); 
+        }
+    }
+
 }
