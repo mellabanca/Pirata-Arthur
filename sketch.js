@@ -30,6 +30,7 @@ var tower, towerImg;
 var angle, cannon;
 var cannonBall;
 var buum = [];
+var barco;
 
 function preload() {
  backgroundImg = loadImage("./assets/background.gif");
@@ -56,6 +57,8 @@ function setup() {
   cannon = new Cannon(180,110,130,100,angle);
 
   cannonBall = new CannonBall(cannon.x, cannon.y);
+
+  barco = new Barco(width-79, height-60, 170, 170, -80);
  
 }
 
@@ -72,6 +75,10 @@ function draw() {
   pop();
 
   cannon.display();
+
+  Matter.Body.setVelocity(barco.body, {x: -0.9, y:0});
+  barco.display();
+
   for(var i = 0; i < buum.length; i++){
     flw(buum[i],i);
   }
