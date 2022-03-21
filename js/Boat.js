@@ -8,6 +8,7 @@ class Boat {
     this.image = loadImage("./assets/boat.png");
     this.animation = boatAnimation;
     this.speed = 0.05;
+    this.rachado=false;
 
     World.add(world, this.body);
   }
@@ -17,6 +18,11 @@ class Boat {
   } 
 
   remove(index) {
+    this.animation = rachadoAnimation;
+    this.speed = 0.05;
+    this.width = 300;
+    this.height = 300;
+    this.rachado=true;
     setTimeout(() => {
       Matter.World.remove(world, boats[index].body);
       delete boats[index];

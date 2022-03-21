@@ -13,12 +13,28 @@ var score = 0;
 var naviosAnimation = [];
 var naviosDados, naviosSpriteSheet;
 
+var rachadoAnimation=[];
+var rachadoDados,rachadoSpriteSheet;
+
+var aguaAnimation = [];
+var aguaDados,aguaSpriteSheet;
+
+var seraqueacabou = false;
+
+
+
 function preload() {
   backgroundImg = loadImage("./assets/background.gif");
   towerImage = loadImage("./assets/tower.png");
   naviosDados = loadJSON("./assets/boat/boat.json");
   naviosSpriteSheet = loadImage("./assets/boat/boat.png");
+  rachadoDados=loadJSON("./assets/boat/brokenBoat.json");
+  rachadoSpriteSheet=loadImage("./assets/boat/brokenBoat.png");
+  aguaDados = loadJSON("./assets/waterSplash/waterSplash.json");
+  aguaSpriteSheet = loadImage("./assets/waterSplash/waterSplash.png");
 }
+
+
 
 function setup() {
   canvas = createCanvas(1200, 600);
@@ -42,6 +58,21 @@ function setup() {
     var pos = naviosFrames[i].position;
     var img = naviosSpriteSheet.get(pos.x, pos.y, pos.w, pos.h);
     naviosAnimation.push(img);
+  }
+  var rachadoFrames = rachadoDados.frames;
+
+  for (var i = 0; i < rachadoFrames.length; i++){
+    var pos = rachadoFrames[i].position;
+    var img = rachadoSpriteSheet.get(pos.x, pos.y, pos.w, pos.h);
+    rachadoAnimation.push(img);
+  }
+
+  var aguaFrames = aguaDados.frames;
+
+  for (var i = 0; i < aguaFrames.length; i++){
+    var pos = aguaFrames[i].position;
+    var img = aguaSpriteSheet.get(pos.x, pos.y, pos.w, pos.h);
+    aguaAnimation.push(img);
   }
 }
 
@@ -104,6 +135,7 @@ function keyPressed() {
 function showCannonBalls(ball, index) {
   if (ball) {
     ball.display();
+    ball.animate();
     if (ball.body.position.x >= width || ball.body.position.y >= height - 50) {
       ball.remove(index);
     }
@@ -132,6 +164,11 @@ function showBoats() {
 
         boats[i].display();
         boats[i].animate();
+        var collision = Matter.SAT.collides(tower, boats[i].body);
+        if(collision.collided && !boats[i].rachado){
+          seraqueacabou = true;
+          gameOver();
+        }
       }
     }
   } else {
@@ -144,4 +181,21 @@ function keyReleased() {
   if (keyCode === DOWN_ARROW) {
     balls[balls.length - 1].shoot();
   }
+}
+
+function gameOver(){
+  swal(
+  {
+    title: "SEFERROU OTARIO",
+    text: "VALEU POR JOGAR, FERA",
+    imageUrl: "https://raw.githubusercontent.com/whitehatjr/PiratesInvasion/main/assets/boat.png",
+    imageSize: "150x150",
+    confirmButtonText: "Jogar Novamente"
+  },
+  function(botaoPressionado){
+    if(botaoPressionado){
+      location.reload();
+    }
+  }
+  );
 }
